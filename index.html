@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="MirrorSLAM">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MirrorSLAM</title>
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+  <!-- Three.js and loaders -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/PLYLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+</head>
+<body>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+
+          <!-- Title -->
+          <h1 class="title is-2 publication-title">Mirror-aware Dense RGB-D SLAM</h1>
+
+          <!-- Authors -->
+          <div class="is-size-6 publication-authors">
+            <p>
+              Hatim Asslik<sup>1,2</sup>,
+              Mohamed Kas<sup>2</sup>,
+              Youssef Alj<sup>1</sup>,
+              Yassine Ruichek<sup>2</sup>
+            </p>
+            <p class="affiliations">
+              <sup>1</sup>International Artificial Intelligence Center of Morocco,  
+              Mohammed VI Polytechnic University, Rabat, Morocco<br>
+              <sup>2</sup>Université de Technologie Belfort-Montbéliard (UTBM),  
+              CIAD Laboratory, UMR 7533, Belfort, France
+            </p>
+          </div>
+
+          <!-- Links -->
+          <div class="publication-links" style="margin-top: 1rem;">
+            <span class="link-block">
+              <a href="https://github.com/mirror-slam/MirrorSLAM/" class="external-link button is-normal">
+                <span class="icon"><i class="fab fa-github"></i></span>
+                <span>Code</span>
+              </a>
+            </span>
+
+            <span class="link-block">
+              <a href="https://drive.google.com/file/d/16VspK0aUh94ZCmRfGLnZLC8CulU5raV6/" class="external-link button is-normal">
+                <span class="icon"><i class="fas fa-database"></i></span>
+                <span>Dataset</span>
+              </a>
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3">Abstract</h2>
+          <div class="content has-text-justified">
+            <p>
+              Mirrors are common in indoor environments. However, they reduce the accuracy of both localization and mapping of RGB-D SLAM systems, due to incorrect depth measurements from infrared sensors caused by multipath interference. Yet, mirror-aware SLAM has received limited research attention. To the best of our knowledge, this is the first mirror-aware dense RGB-D SLAM–agnostic method that can be integrated into any RGB-D SLAM system. We present DepthMirrorNet, a CNN encoder-decoder trained on our newly constructed DepthMirror Dataset. Within DepthMirrorNet, a dedicated segmentation module identifies reflective regions affected by multipath interference, enabling the generation of filtered depth maps. These maps are then used in the SLAM pipeline for improved reconstruction. We show through experiments that our proposed approach improves localization accuracy and mapping quality by reconstructing the correct 3D mirror geometry. Experiments on ScanNet dataset demonstrate significant improvements in localization and reconstruction metrics over the NICE-SLAM, ESLAM and SplaTAM baselines.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-4 has-text-centered">Method Overview</h2>
+      <figure class="image">
+        <img src="./static/images/MirrorSLAM.png" alt="DepthMirrorNet predicts filtered depth maps that can be used by any RGB-D SLAM system to produce consistent and accurate reconstructions.">
+        <figcaption class="has-text-centered is-italic mt-2">
+          DepthMirrorNet predicts filtered depth maps that can be used by any RGB-D SLAM system to produce consistent and accurate reconstructions.
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <figure class="image">
+        <img src="./static/images/DepthMirrorNet.png" alt="DepthMirrorNet Architecture">
+        <figcaption class="has-text-centered is-italic mt-2">
+          DepthMirrorNet Architecture.
+        </figcaption>
+      </figure>
+      <div class="content mt-4">
+        <p>
+          <strong>Architecture of DepthMirrorNet.</strong> 
+The sensor depth map \(D\) is fed to a CNN Encoder-Decoder in order to predict a binary mirror mask \(M\) detecting the mirror area with ghost values. 
+Filling holes and dilation algorithms are used to obtain a final filtered mirror mask \(M_{filtered}\). 
+The regions from the input depth map \(D\) and contained in \(M_{filtered}\) are set to zero.
+The \(\odot\) operator denotes a pixel-wise multiplication between sensor depth map \(D\) and logical NOT of the binary mask \(\overline{M_{filtered}}\). 
+During data collection, a manual check is performed to classify the generated masks (correct or not) and select only the correct masks from the ones generated with Tukey's fences and MAD-based Z-score algorithms.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-4 has-text-centered">Quantitative Evaluation</h2>
+      <figure class="image">
+        <img src="./static/images/Quantitative.png" alt="Quantitative Evaluation Table" style="max-width: 100%; height: auto;">
+        <figcaption class="has-text-centered is-italic mt-2">
+          Combined quantitative evaluation for NICE-SLAM, ESLAM, and SplaTAM using raw depth maps, PDNet-filtered depth maps, and our DepthMirrorNet-filtered depth maps. We evaluate on ScanNet scenes with mirrors.
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-4 has-text-centered">Qualitative Evaluation</h2>
+      <figure class="image">
+        <img src="./static/images/Qualitative.png" alt="Quantitative Evaluation Table" style="max-width: 100%; height: auto;">
+        <figcaption class="has-text-centered is-italic mt-2">
+          Qualitative comparison of 3D mesh reconstructions in mirror-containing scenes from the ScanNet dataset.
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+
+<div class="columns is-vcentered is-centered">
+  
+  <div class="column is-narrow has-text-centered"> <label class="label is-size-6">Method</label>
+    <div class="tabs is-toggle is-toggle-rounded is-centered is-small">
+      <ul id="framework-tabs">
+        <li class="is-active" data-value="ESLAM">
+          <a><span>ESLAM</span></a>
+        </li>
+        <li data-value="NICE-SLAM">
+          <a><span>NICE-SLAM</span></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="column is-narrow has-text-centered"> <label class="label is-size-6">Scene</label>
+    <div class="field">
+      <div class="control">
+        <div class="select is-rounded is-centered is-small">
+          <select id="scene-select">
+            <option value="1" selected>Example 1</option>
+            <option value="2">Example 2</option>
+            <option value="3">Example 3</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<section class="hero is-light">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <h2 class="title is-4 has-text-centered">Qualitative Evaluation</h2>
+      <!-- Scene 1 -->
+      <div id="scene-1" class="scene-grid active">
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+          <div style="width: 48%; text-align: center;">
+            <div id="mesh-container-1" style="width: 100%; height: 400px; border: 1px solid #ddd;"></div>
+            <p class="has-text-weight-semibold mt-2">Raw</p>
+          </div>
+          <div style="width: 48%; text-align: center;">
+            <div id="mesh-container-2" style="width: 100%; height: 400px; border: 1px solid #ddd;"></div>
+            <p class="has-text-weight-semibold mt-2">w/ PDNet</p>
+          </div>
+          <div style="width: 48%; text-align: center;">
+            <div id="mesh-container-3" style="width: 100%; height: 400px; border: 1px solid #ddd;"></div>
+            <p class="has-text-weight-semibold mt-2">w/ Ours</p>
+          </div>
+          <div style="width: 48%; text-align: center;">
+            <div id="mesh-container-4" style="width: 100%; height: 400px; border: 1px solid #ddd;"></div>
+            <p class="has-text-weight-semibold mt-2">Ground Truth</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scene 2 -->
+      <div id="scene-2" class="scene-grid">
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+          <div style="width: 48%; text-align: center;">
+            <div id="mesh-container-5" style="width: 100%; height: 400px; border: 1px solid #ddd;"></div>
+            <p class="has-text-weight-semibold mt-2">Raw</p>
+          </div>
+          <div style="width: 48%; text-align: center;">
+            <div id="mesh-container-6" style="width: 100%; height: 400px; border: 1px solid #ddd;"></div>
+            <p class="has-text-weight-semibold mt-2">w/ PDNet</p>
+          </div>
+          <div style="width: 48%; text-align: center;">
+            <div id="mesh-container-7" style="width: 100%; height: 400px; border: 1px solid #ddd;"></div>
+            <p class="has-text-weight-semibold mt-2">w/ Ours</p>
+          </div>
+          <div style="width: 48%; text-align: center;">
+            <div id="mesh-container-8" style="width: 100%; height: 400px; border: 1px solid #ddd;"></div>
+            <p class="has-text-weight-semibold mt-2">Ground Truth</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scene 3 -->
+      <div id="scene-3" class="scene-grid">
+        <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+          <div style="width: 48%; text-align: center;">
+            <div id="mesh-container-9" style="width: 100%; height: 400px; border: 1px solid #ddd;"></div>
+            <p class="has-text-weight-semibold mt-2">Raw</p>
+          </div>
+          <div style="width: 48%; text-align: center;">
+            <div id="mesh-container-10" style="width: 100%; height: 400px; border: 1px solid #ddd;"></div>
+            <p class="has-text-weight-semibold mt-2">w/ PDNet</p>
+          </div>
+          <div style="width: 48%; text-align: center;">
+            <div id="mesh-container-11" style="width: 100%; height: 400px; border: 1px solid #ddd;"></div>
+            <p class="has-text-weight-semibold mt-2">w/ Ours</p>
+          </div>
+          <div style="width: 48%; text-align: center;">
+            <div id="mesh-container-12" style="width: 100%; height: 400px; border: 1px solid #ddd;"></div>
+            <p class="has-text-weight-semibold mt-2">Ground Truth</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" />
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website adapted from the Nerfies templates, which is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            If you use the <a href="https://github.com/spla-tam/spla-tam.github.io">source code</a> of this website,
+            please also link back to the <a href="https://github.com/nerfies/nerfies.github.io">Nerfies source code</a> in your footer.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const selector = document.getElementById("scene-select");
+
+  // Show scene 1 initially
+  document.getElementById("scene-1").style.display = "block";
+  document.getElementById("scene-2").style.display = "none";
+  document.getElementById("scene-3").style.display = "none";
+
+  selector.addEventListener("change", function () {
+    const selected = this.value;
+
+    // Hide all scenes
+    for (let i = 1; i <= 3; i++) {
+      document.getElementById(`scene-${i}`).style.display = "none";
+    }
+
+    // Show the selected one
+    document.getElementById(`scene-${selected}`).style.display = "block";
+
+    // Trigger resize for newly visible renderers
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 100);
+  });
+});
+</script>
+
+<style>
+.scene-grid {
+  display: none;
+}
+.scene-grid.active {
+  display: block;
+}
+</style>
+
+<!-- Load the mesh viewer script last -->
+<script src="./static/js/mesh-viewer.js"></script>
+
+</body>
+</html>

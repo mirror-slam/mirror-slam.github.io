@@ -1,0 +1,243 @@
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
+
+
+.footer .icon-link {
+    font-size: 25px;
+    color: #000;
+}
+
+.link-block a {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.coolname {
+  font-variant: small-caps;
+}
+
+
+.teaser .hero-body {
+  padding-top: 0;
+  padding-bottom: 3rem;
+}
+
+.teaser {
+  font-family: 'Google Sans', sans-serif;
+}
+
+
+.publication-title {
+}
+
+.publication-banner {
+  max-height: parent;
+
+}
+
+.publication-banner video {
+  position: relative;
+  left: auto;
+  top: auto;
+  transform: none;
+  object-fit: fit;
+}
+
+.publication-header .hero-body {
+}
+
+.publication-title {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-authors {
+    font-family: 'Google Sans', sans-serif;
+}
+
+.publication-venue {
+    color: #555;
+    width: fit-content;
+    font-weight: bold;
+}
+
+.publication-awards {
+    color: #ff3860;
+    width: fit-content;
+    font-weight: bolder;
+}
+
+.publication-authors {
+}
+
+.publication-authors a {
+   color: #4A1FB4 !important;
+}
+
+.publication-authors a:hover {
+    text-decoration: underline;
+}
+
+.author-block {
+  display: inline-block;
+}
+
+.publication-banner img {
+}
+
+.publication-authors {
+  /*color: #4286f4;*/
+}
+
+.publication-video {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+
+    overflow: hidden;
+    border-radius: 10px !important;
+}
+
+.publication-video iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.publication-body img {
+}
+
+.results-carousel {
+  overflow: hidden;
+}
+
+.results-carousel .item {
+  margin: 5px;
+  overflow: hidden;
+  border: 1px solid #bbb;
+  border-radius: 10px;
+  padding: 0;
+  font-size: 0;
+}
+
+.results-carousel video {
+  margin: 0;
+}
+
+
+.interpolation-panel {
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+
+.interpolation-panel .interpolation-image {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.interpolation-video-column {
+}
+
+.interpolation-panel .slider {
+  margin: 0 !important;
+}
+
+.interpolation-panel .slider {
+  margin: 0 !important;
+}
+
+#interpolation-image-wrapper {
+  width: 100%;
+}
+#interpolation-image-wrapper img {
+  border-radius: 5px;
+}
+
+.interpolation-image-wrapper-uncoco img {
+  margin-top: 50px ;
+  margin-bottom: 80px;
+}
+.interpolation-image-wrapper-tabletop img {
+  margin-top: 70px ;
+  margin-bottom: 100px;
+}
+.interpolation-image-wrapper-fine-grained img {
+  /* margin-top: 50px ; */
+  margin-bottom: 20px;
+}
+.interpolation-image-wrapper-zero-shot img {
+  margin-top: 25px ;
+  /* margin-bottom: 100px; */
+}
+
+.framework-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background: linear-gradient(180deg,#ffffff,#f3f3f6);
+  border: 1px solid #d1d5db;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  color: #222;
+  box-shadow: 0 1px 2px rgba(16,24,40,0.04);
+  cursor: pointer;
+  min-width: 180px;
+}
+
+/* add a simple chevron using a pseudo-element on the container */
+#framework-selector {
+  position: relative;
+  display: inline-block;
+}
+#framework-selector::after {
+  content: "▾";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.tabs.is-toggle li.is-active a {
+    background-color: #ef8d58da !important; 
+    border-color: #ef8d58da !important;
+    color: #fff !important;
+}
+
+#scene-select {
+    text-align: center;
+    text-align-last: center; 
+}
+
+/* 1. Force both the Tabs and the Select to have the EXACT same height */
+.tabs.is-toggle li a,
+.select select {
+    height: 36px !important;      /* Sets a fixed, equal height */
+    line-height: 36px !important; /* Vertically centers the text */
+    padding-top: 0 !important;    /* Removes conflicting padding */
+    padding-bottom: 0 !important;
+    border-width: 1px !important; /* Ensures border thickness matches */
+    font-size: 0.95rem !important; /* Ensures font size matches */
+}
+
+/* 2. Ensure the container of the select matches that height */
+.select {
+    height: 36px !important;
+}
+
+/* 3. Adjust the "Scene" dropdown arrow position to be perfectly centered */
+.select::after {
+    top: 50% !important;
+    margin-top: -0.375em !important;
+}
+
+/* 4. (Optional) Ensure the labels "Method" and "Scene" are aligned if they aren't already */
+.label {
+    margin-bottom: 0.5em !important;
+}
