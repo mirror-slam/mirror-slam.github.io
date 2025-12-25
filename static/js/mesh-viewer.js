@@ -11,31 +11,55 @@ document.addEventListener("DOMContentLoaded", function () {
         './static/mesh/NICE-SLAM/0080_PDNet.ply',
         './static/mesh/NICE-SLAM/0080_Ours.ply',
         './static/mesh/ESLAM/0080_GT.ply',
+
         './static/mesh/NICE-SLAM/0112_Kinect.ply',
         './static/mesh/NICE-SLAM/0112_PDNet.ply',
         './static/mesh/NICE-SLAM/0112_Ours.ply',
         './static/mesh/ESLAM/0112_GT.ply',
+
         './static/mesh/NICE-SLAM/0146_Kinect.ply',
         './static/mesh/NICE-SLAM/0146_PDNet.ply',
         './static/mesh/NICE-SLAM/0146_Ours.ply',
         './static/mesh/ESLAM/0146_GT.ply',
       ];
-    } else {
+    }
+    if (framework === 'ESLAM') {
       return [
         './static/mesh/ESLAM/0080_Kinect.ply',
         './static/mesh/ESLAM/0080_PDNet.ply',
         './static/mesh/ESLAM/0080_Ours.ply',
         './static/mesh/ESLAM/0080_GT.ply',
+
         './static/mesh/ESLAM/0112_Kinect.ply',
         './static/mesh/ESLAM/0112_PDNet.ply',
         './static/mesh/ESLAM/0112_Ours.ply',
         './static/mesh/ESLAM/0112_GT.ply',
+
         './static/mesh/ESLAM/0146_Kinect.ply',
         './static/mesh/ESLAM/0146_PDNet.ply',
         './static/mesh/ESLAM/0146_Ours.ply',
         './static/mesh/ESLAM/0146_GT.ply',
       ];
     }
+    if (framework === 'SplaTAM') {
+      return [
+        './static/mesh/SplaTAM/0080_aligned_Kinect.ply',
+        './static/mesh/SplaTAM/0080_aligned_PDNet.ply',
+        './static/mesh/SplaTAM/0080_aligned_Ours.ply',
+        './static/mesh/ESLAM/0080_GT.ply',
+
+        './static/mesh/SplaTAM/0112_aligned_Kinect.ply',
+        './static/mesh/SplaTAM/0112_aligned_PDNet.ply',
+        './static/mesh/SplaTAM/0112_aligned_Ours.ply',
+        './static/mesh/ESLAM/0112_GT.ply',
+
+        './static/mesh/SplaTAM/0080_aligned_Kinect.ply',
+        './static/mesh/SplaTAM/0080_aligned_PDNet.ply',
+        './static/mesh/SplaTAM/0080_aligned_Ours.ply',
+        './static/mesh/ESLAM/0080_GT.ply',
+      ];
+}
+
   }
 
   function clearScenes() {
@@ -81,11 +105,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function animate() {
     requestAnimationFrame(animate);
+
     viewers.forEach(viewer => {
-      if (viewer.container.offsetParent !== null) {
-        viewer.controls.update();
-        viewer.renderer.render(viewer.scene, viewer.camera);
-      }
+      // Skip hidden scenes
+      if (!viewer.container.offsetParent) return;
+
+      viewer.controls.update();
+      viewer.renderer.render(viewer.scene, viewer.camera);
     });
   }
 
@@ -113,6 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
       camera.position.set(0, 0, 2);
 
       const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));        // added
       renderer.setSize(container.clientWidth, container.clientHeight);
       container.appendChild(renderer.domElement);
 
@@ -171,13 +198,61 @@ document.addEventListener("DOMContentLoaded", function () {
           const targetSize = 1.5;
           const scale = maxDim > 0 ? targetSize / maxDim : 1.0;
 
-          const material = geometry.attributes && geometry.attributes.color
-            ? new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide }) 
-            : new THREE.MeshBasicMaterial({ color: 0x8888aa, side: THREE.DoubleSide });
+          if (framework === 'SplaTAM') {
 
-          const mesh = new THREE.Mesh(geometry, material);
-          mesh.scale.setScalar(scale);
-          viewer.scene.add(mesh);
+              // --- FORCE POINT CLOUD (ignore faces, even for GT meshes) ---
+              geometry.setIndex(null);
+              delete geometry.attributes.normal;
+
+              const MAX_POINTS = 300000; // performance cap
+              const pos = geometry.attributes.position;
+              const total = pos.count;
+
+              if (total > MAX_POINTS) {
+                const step = Math.floor(total / MAX_POINTS);
+                const sampledPos = new Float32Array(MAX_POINTS * 3);
+
+                let j = 0;
+                for (let i = 0; i < total && j < sampledPos.length; i += step) {
+                  sampledPos[j++] = pos.array[i * 3];
+                  sampledPos[j++] = pos.array[i * 3 + 1];
+                  sampledPos[j++] = pos.array[i * 3 + 2];
+                }
+
+                geometry.setAttribute(
+                  'position',
+                  new THREE.BufferAttribute(sampledPos, 3)
+                );
+              }
+
+              // --- Force uniform color for ALL SplaTAM (including GT) ---
+              if (geometry.attributes.color) {
+                delete geometry.attributes.color;
+              }
+
+              const pointsMaterial = new THREE.PointsMaterial({
+                size: 0.004,
+                sizeAttenuation: true,
+                color: 0x4444ff
+              });
+
+              const points = new THREE.Points(geometry, pointsMaterial);
+              points.scale.setScalar(scale);
+              viewer.scene.add(points);
+
+            } else {
+
+              // --- STANDARD TRIANGLE MESH (ESLAM / NICE-SLAM) ---
+              const material = geometry.attributes && geometry.attributes.color
+                ? new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.DoubleSide })
+                : new THREE.MeshBasicMaterial({ color: 0x8888aa, side: THREE.DoubleSide });
+
+              const mesh = new THREE.Mesh(geometry, material);
+              mesh.scale.setScalar(scale);
+              viewer.scene.add(mesh);
+            }
+
+
 
           const radius = 2.5;
           viewer.camera.position.set(radius, radius * 0.5, radius);
@@ -203,7 +278,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // per-scene labels (4 columns): [main, PDNet, Ours, GT]
     const labelSets = {
       'ESLAM': ['ESLAM', 'ESLAM (w/ PDNet)', 'ESLAM (w/ Ours)', 'Ground Truth'],
-      'NICE-SLAM': ['NICE-SLAM', 'NICE-SLAM (w/ PDNet)', 'NICE-SLAM (w/ Ours)', 'Ground Truth']
+      'NICE-SLAM': ['NICE-SLAM', 'NICE-SLAM (w/ PDNet)', 'NICE-SLAM (w/ Ours)', 'Ground Truth'],
+      'SplaTAM': ['SplaTAM', 'SplaTAM (w/ PDNet)', 'SplaTAM (w/ Ours)', 'Ground Truth']
     };
 
     const labels = labelSets[framework] || labelSets['ESLAM'];
