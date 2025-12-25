@@ -53,9 +53,9 @@ document.addEventListener("DOMContentLoaded", function () {
         './static/mesh/SplaTAM/0112_aligned_Ours.ply',
         './static/mesh/ESLAM/0112_GT.ply',
 
-        './static/mesh/SplaTAM/0080_aligned_Kinect.ply',
-        './static/mesh/SplaTAM/0080_aligned_PDNet.ply',
-        './static/mesh/SplaTAM/0080_aligned_Ours.ply',
+        './static/mesh/SplaTAM/0146_aligned_Kinect.ply',
+        './static/mesh/SplaTAM/0146_aligned_PDNet.ply',
+        './static/mesh/SplaTAM/0146_aligned_Ours.ply',
         './static/mesh/ESLAM/0080_GT.ply',
       ];
 }
